@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PositionState {
+  ACTIVE
+  INACTIVE
+}
+
+enum PositionFinality {
+  FINAL
+  PENDING
+}
+
+model Position {
+  id           String           @id @default(uuid())
+  positionId   String           @unique
+  ownerAddress String
+  state        PositionState    @default(ACTIVE)
+  finality     PositionFinality @default(FINAL)
+  amount       BigInt
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+enum ReservationStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+model Reservation {
+  id            String            @id @default(uuid())
+  reservationId String            @unique
+  ownerAddress  String
+  state         ReservationStatus @default(ACTIVE)
+  finality      PositionFinality  @default(FINAL)
+  amount        BigInt
+  positionId    String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
