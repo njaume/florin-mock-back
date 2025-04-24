@@ -125,7 +125,14 @@ exports.Prisma.PositionScalarFieldEnum = {
   finality: 'finality',
   amount: 'amount',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  contractRegistrationTxHash: 'contractRegistrationTxHash',
+  contractRegistrationConfirmations: 'contractRegistrationConfirmations',
+  originTxHash: 'originTxHash',
+  destinationTxHash: 'destinationTxHash',
+  receivedAmount: 'receivedAmount',
+  receivedAt: 'receivedAt',
+  bitcoinAddress: 'bitcoinAddress'
 };
 
 exports.Prisma.ReservationScalarFieldEnum = {
@@ -136,13 +143,25 @@ exports.Prisma.ReservationScalarFieldEnum = {
   finality: 'finality',
   amount: 'amount',
   positionId: 'positionId',
+  transactions: 'transactions',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  contractRegistrationTxHash: 'contractRegistrationTxHash',
+  contractRegistrationConfirmations: 'contractRegistrationConfirmations',
+  originTxHash: 'originTxHash',
+  destinationTxHash: 'destinationTxHash',
+  receivedAmount: 'receivedAmount',
+  receivedAt: 'receivedAt',
+  bitcoinAddress: 'bitcoinAddress'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -154,9 +173,17 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.PositionState = exports.$Enums.PositionState = {
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.PositionStatus = exports.$Enums.PositionStatus = {
   ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE'
+  INACTIVE: 'INACTIVE',
+  EXPIRED: 'EXPIRED',
+  COMPLETED: 'COMPLETED'
 };
 
 exports.PositionFinality = exports.$Enums.PositionFinality = {
@@ -166,8 +193,9 @@ exports.PositionFinality = exports.$Enums.PositionFinality = {
 
 exports.ReservationStatus = exports.$Enums.ReservationStatus = {
   ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
   COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
+  EXPIRED: 'EXPIRED'
 };
 
 exports.Prisma.ModelName = {

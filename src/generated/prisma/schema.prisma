@@ -14,9 +14,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum PositionState {
+enum PositionStatus {
   ACTIVE
   INACTIVE
+  EXPIRED
+  COMPLETED
 }
 
 enum PositionFinality {
@@ -24,31 +26,55 @@ enum PositionFinality {
   PENDING
 }
 
-model Position {
-  id           String           @id @default(uuid())
-  positionId   String           @unique
-  ownerAddress String
-  state        PositionState    @default(ACTIVE)
-  finality     PositionFinality @default(FINAL)
-  amount       BigInt
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
 }
 
 enum ReservationStatus {
   ACTIVE
+  INACTIVE
   COMPLETED
-  CANCELLED
+  EXPIRED
+}
+
+model Position {
+  id                                String           @id @default(uuid())
+  positionId                        String           @unique
+  ownerAddress                      String
+  state                             PositionStatus   @default(ACTIVE)
+  finality                          PositionFinality @default(FINAL)
+  amount                            BigInt
+  createdAt                         DateTime         @default(now())
+  updatedAt                         DateTime         @updatedAt
+  reservations                      Reservation[]
+  contractRegistrationTxHash        String?
+  contractRegistrationConfirmations Int?
+  originTxHash                      String?
+  destinationTxHash                 String?
+  receivedAmount                    BigInt?
+  receivedAt                        DateTime?
+  bitcoinAddress                    String?
 }
 
 model Reservation {
-  id            String            @id @default(uuid())
-  reservationId String            @unique
-  ownerAddress  String
-  state         ReservationStatus @default(ACTIVE)
-  finality      PositionFinality  @default(FINAL)
-  amount        BigInt
-  positionId    String?
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
+  id                                String            @id @default(uuid())
+  reservationId                     String            @unique
+  ownerAddress                      String
+  state                             ReservationStatus @default(ACTIVE)
+  finality                          PositionFinality  @default(FINAL)
+  amount                            BigInt
+  positionId                        String?
+  position                          Position?         @relation(fields: [positionId], references: [positionId])
+  transactions                      Json              @default("[]")
+  createdAt                         DateTime          @default(now())
+  updatedAt                         DateTime          @updatedAt
+  contractRegistrationTxHash        String?
+  contractRegistrationConfirmations Int?
+  originTxHash                      String?
+  destinationTxHash                 String?
+  receivedAmount                    BigInt?
+  receivedAt                        DateTime?
+  bitcoinAddress                    String?
 }

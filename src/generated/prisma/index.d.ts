@@ -28,12 +28,14 @@ export type Reservation = $Result.DefaultSelection<Prisma.$ReservationPayload>
  * Enums
  */
 export namespace $Enums {
-  export const PositionState: {
+  export const PositionStatus: {
   ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE'
+  INACTIVE: 'INACTIVE',
+  EXPIRED: 'EXPIRED',
+  COMPLETED: 'COMPLETED'
 };
 
-export type PositionState = (typeof PositionState)[keyof typeof PositionState]
+export type PositionStatus = (typeof PositionStatus)[keyof typeof PositionStatus]
 
 
 export const PositionFinality: {
@@ -44,23 +46,37 @@ export const PositionFinality: {
 export type PositionFinality = (typeof PositionFinality)[keyof typeof PositionFinality]
 
 
+export const TransactionType: {
+  DEPOSIT: 'DEPOSIT',
+  WITHDRAWAL: 'WITHDRAWAL',
+  TRANSFER: 'TRANSFER'
+};
+
+export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
+
+
 export const ReservationStatus: {
   ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
   COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
+  EXPIRED: 'EXPIRED'
 };
 
 export type ReservationStatus = (typeof ReservationStatus)[keyof typeof ReservationStatus]
 
 }
 
-export type PositionState = $Enums.PositionState
+export type PositionStatus = $Enums.PositionStatus
 
-export const PositionState: typeof $Enums.PositionState
+export const PositionStatus: typeof $Enums.PositionStatus
 
 export type PositionFinality = $Enums.PositionFinality
 
 export const PositionFinality: typeof $Enums.PositionFinality
+
+export type TransactionType = $Enums.TransactionType
+
+export const TransactionType: typeof $Enums.TransactionType
 
 export type ReservationStatus = $Enums.ReservationStatus
 
@@ -997,6 +1013,36 @@ export namespace Prisma {
    */
 
 
+  /**
+   * Count Type PositionCountOutputType
+   */
+
+  export type PositionCountOutputType = {
+    reservations: number
+  }
+
+  export type PositionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reservations?: boolean | PositionCountOutputTypeCountReservationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PositionCountOutputType without action
+   */
+  export type PositionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PositionCountOutputType
+     */
+    select?: PositionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PositionCountOutputType without action
+   */
+  export type PositionCountOutputTypeCountReservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservationWhereInput
+  }
+
 
   /**
    * Models
@@ -1016,32 +1062,50 @@ export namespace Prisma {
 
   export type PositionAvgAggregateOutputType = {
     amount: number | null
+    contractRegistrationConfirmations: number | null
+    receivedAmount: number | null
   }
 
   export type PositionSumAggregateOutputType = {
     amount: bigint | null
+    contractRegistrationConfirmations: number | null
+    receivedAmount: bigint | null
   }
 
   export type PositionMinAggregateOutputType = {
     id: string | null
     positionId: string | null
     ownerAddress: string | null
-    state: $Enums.PositionState | null
+    state: $Enums.PositionStatus | null
     finality: $Enums.PositionFinality | null
     amount: bigint | null
     createdAt: Date | null
     updatedAt: Date | null
+    contractRegistrationTxHash: string | null
+    contractRegistrationConfirmations: number | null
+    originTxHash: string | null
+    destinationTxHash: string | null
+    receivedAmount: bigint | null
+    receivedAt: Date | null
+    bitcoinAddress: string | null
   }
 
   export type PositionMaxAggregateOutputType = {
     id: string | null
     positionId: string | null
     ownerAddress: string | null
-    state: $Enums.PositionState | null
+    state: $Enums.PositionStatus | null
     finality: $Enums.PositionFinality | null
     amount: bigint | null
     createdAt: Date | null
     updatedAt: Date | null
+    contractRegistrationTxHash: string | null
+    contractRegistrationConfirmations: number | null
+    originTxHash: string | null
+    destinationTxHash: string | null
+    receivedAmount: bigint | null
+    receivedAt: Date | null
+    bitcoinAddress: string | null
   }
 
   export type PositionCountAggregateOutputType = {
@@ -1053,16 +1117,27 @@ export namespace Prisma {
     amount: number
     createdAt: number
     updatedAt: number
+    contractRegistrationTxHash: number
+    contractRegistrationConfirmations: number
+    originTxHash: number
+    destinationTxHash: number
+    receivedAmount: number
+    receivedAt: number
+    bitcoinAddress: number
     _all: number
   }
 
 
   export type PositionAvgAggregateInputType = {
     amount?: true
+    contractRegistrationConfirmations?: true
+    receivedAmount?: true
   }
 
   export type PositionSumAggregateInputType = {
     amount?: true
+    contractRegistrationConfirmations?: true
+    receivedAmount?: true
   }
 
   export type PositionMinAggregateInputType = {
@@ -1074,6 +1149,13 @@ export namespace Prisma {
     amount?: true
     createdAt?: true
     updatedAt?: true
+    contractRegistrationTxHash?: true
+    contractRegistrationConfirmations?: true
+    originTxHash?: true
+    destinationTxHash?: true
+    receivedAmount?: true
+    receivedAt?: true
+    bitcoinAddress?: true
   }
 
   export type PositionMaxAggregateInputType = {
@@ -1085,6 +1167,13 @@ export namespace Prisma {
     amount?: true
     createdAt?: true
     updatedAt?: true
+    contractRegistrationTxHash?: true
+    contractRegistrationConfirmations?: true
+    originTxHash?: true
+    destinationTxHash?: true
+    receivedAmount?: true
+    receivedAt?: true
+    bitcoinAddress?: true
   }
 
   export type PositionCountAggregateInputType = {
@@ -1096,6 +1185,13 @@ export namespace Prisma {
     amount?: true
     createdAt?: true
     updatedAt?: true
+    contractRegistrationTxHash?: true
+    contractRegistrationConfirmations?: true
+    originTxHash?: true
+    destinationTxHash?: true
+    receivedAmount?: true
+    receivedAt?: true
+    bitcoinAddress?: true
     _all?: true
   }
 
@@ -1189,11 +1285,18 @@ export namespace Prisma {
     id: string
     positionId: string
     ownerAddress: string
-    state: $Enums.PositionState
+    state: $Enums.PositionStatus
     finality: $Enums.PositionFinality
     amount: bigint
     createdAt: Date
     updatedAt: Date
+    contractRegistrationTxHash: string | null
+    contractRegistrationConfirmations: number | null
+    originTxHash: string | null
+    destinationTxHash: string | null
+    receivedAmount: bigint | null
+    receivedAt: Date | null
+    bitcoinAddress: string | null
     _count: PositionCountAggregateOutputType | null
     _avg: PositionAvgAggregateOutputType | null
     _sum: PositionSumAggregateOutputType | null
@@ -1224,6 +1327,15 @@ export namespace Prisma {
     amount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    contractRegistrationTxHash?: boolean
+    contractRegistrationConfirmations?: boolean
+    originTxHash?: boolean
+    destinationTxHash?: boolean
+    receivedAmount?: boolean
+    receivedAt?: boolean
+    bitcoinAddress?: boolean
+    reservations?: boolean | Position$reservationsArgs<ExtArgs>
+    _count?: boolean | PositionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["position"]>
 
   export type PositionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1235,6 +1347,13 @@ export namespace Prisma {
     amount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    contractRegistrationTxHash?: boolean
+    contractRegistrationConfirmations?: boolean
+    originTxHash?: boolean
+    destinationTxHash?: boolean
+    receivedAmount?: boolean
+    receivedAt?: boolean
+    bitcoinAddress?: boolean
   }, ExtArgs["result"]["position"]>
 
   export type PositionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1246,6 +1365,13 @@ export namespace Prisma {
     amount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    contractRegistrationTxHash?: boolean
+    contractRegistrationConfirmations?: boolean
+    originTxHash?: boolean
+    destinationTxHash?: boolean
+    receivedAmount?: boolean
+    receivedAt?: boolean
+    bitcoinAddress?: boolean
   }, ExtArgs["result"]["position"]>
 
   export type PositionSelectScalar = {
@@ -1257,22 +1383,44 @@ export namespace Prisma {
     amount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    contractRegistrationTxHash?: boolean
+    contractRegistrationConfirmations?: boolean
+    originTxHash?: boolean
+    destinationTxHash?: boolean
+    receivedAmount?: boolean
+    receivedAt?: boolean
+    bitcoinAddress?: boolean
   }
 
-  export type PositionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "positionId" | "ownerAddress" | "state" | "finality" | "amount" | "createdAt" | "updatedAt", ExtArgs["result"]["position"]>
+  export type PositionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "positionId" | "ownerAddress" | "state" | "finality" | "amount" | "createdAt" | "updatedAt" | "contractRegistrationTxHash" | "contractRegistrationConfirmations" | "originTxHash" | "destinationTxHash" | "receivedAmount" | "receivedAt" | "bitcoinAddress", ExtArgs["result"]["position"]>
+  export type PositionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reservations?: boolean | Position$reservationsArgs<ExtArgs>
+    _count?: boolean | PositionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PositionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PositionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $PositionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Position"
-    objects: {}
+    objects: {
+      reservations: Prisma.$ReservationPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       positionId: string
       ownerAddress: string
-      state: $Enums.PositionState
+      state: $Enums.PositionStatus
       finality: $Enums.PositionFinality
       amount: bigint
       createdAt: Date
       updatedAt: Date
+      contractRegistrationTxHash: string | null
+      contractRegistrationConfirmations: number | null
+      originTxHash: string | null
+      destinationTxHash: string | null
+      receivedAmount: bigint | null
+      receivedAt: Date | null
+      bitcoinAddress: string | null
     }, ExtArgs["result"]["position"]>
     composites: {}
   }
@@ -1667,6 +1815,7 @@ export namespace Prisma {
    */
   export interface Prisma__PositionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    reservations<T extends Position$reservationsArgs<ExtArgs> = {}>(args?: Subset<T, Position$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1699,11 +1848,18 @@ export namespace Prisma {
     readonly id: FieldRef<"Position", 'String'>
     readonly positionId: FieldRef<"Position", 'String'>
     readonly ownerAddress: FieldRef<"Position", 'String'>
-    readonly state: FieldRef<"Position", 'PositionState'>
+    readonly state: FieldRef<"Position", 'PositionStatus'>
     readonly finality: FieldRef<"Position", 'PositionFinality'>
     readonly amount: FieldRef<"Position", 'BigInt'>
     readonly createdAt: FieldRef<"Position", 'DateTime'>
     readonly updatedAt: FieldRef<"Position", 'DateTime'>
+    readonly contractRegistrationTxHash: FieldRef<"Position", 'String'>
+    readonly contractRegistrationConfirmations: FieldRef<"Position", 'Int'>
+    readonly originTxHash: FieldRef<"Position", 'String'>
+    readonly destinationTxHash: FieldRef<"Position", 'String'>
+    readonly receivedAmount: FieldRef<"Position", 'BigInt'>
+    readonly receivedAt: FieldRef<"Position", 'DateTime'>
+    readonly bitcoinAddress: FieldRef<"Position", 'String'>
   }
     
 
@@ -1720,6 +1876,10 @@ export namespace Prisma {
      * Omit specific fields from the Position
      */
     omit?: PositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PositionInclude<ExtArgs> | null
     /**
      * Filter, which Position to fetch.
      */
@@ -1739,6 +1899,10 @@ export namespace Prisma {
      */
     omit?: PositionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PositionInclude<ExtArgs> | null
+    /**
      * Filter, which Position to fetch.
      */
     where: PositionWhereUniqueInput
@@ -1756,6 +1920,10 @@ export namespace Prisma {
      * Omit specific fields from the Position
      */
     omit?: PositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PositionInclude<ExtArgs> | null
     /**
      * Filter, which Position to fetch.
      */
@@ -1805,6 +1973,10 @@ export namespace Prisma {
      */
     omit?: PositionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PositionInclude<ExtArgs> | null
+    /**
      * Filter, which Position to fetch.
      */
     where?: PositionWhereInput
@@ -1853,6 +2025,10 @@ export namespace Prisma {
      */
     omit?: PositionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PositionInclude<ExtArgs> | null
+    /**
      * Filter, which Positions to fetch.
      */
     where?: PositionWhereInput
@@ -1895,6 +2071,10 @@ export namespace Prisma {
      * Omit specific fields from the Position
      */
     omit?: PositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PositionInclude<ExtArgs> | null
     /**
      * The data needed to create a Position.
      */
@@ -1943,6 +2123,10 @@ export namespace Prisma {
      * Omit specific fields from the Position
      */
     omit?: PositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PositionInclude<ExtArgs> | null
     /**
      * The data needed to update a Position.
      */
@@ -2010,6 +2194,10 @@ export namespace Prisma {
      */
     omit?: PositionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PositionInclude<ExtArgs> | null
+    /**
      * The filter to search for the Position to update in case it exists.
      */
     where: PositionWhereUniqueInput
@@ -2036,6 +2224,10 @@ export namespace Prisma {
      */
     omit?: PositionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PositionInclude<ExtArgs> | null
+    /**
      * Filter which Position to delete.
      */
     where: PositionWhereUniqueInput
@@ -2056,6 +2248,30 @@ export namespace Prisma {
   }
 
   /**
+   * Position.reservations
+   */
+  export type Position$reservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reservation
+     */
+    select?: ReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reservation
+     */
+    omit?: ReservationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
+    where?: ReservationWhereInput
+    orderBy?: ReservationOrderByWithRelationInput | ReservationOrderByWithRelationInput[]
+    cursor?: ReservationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReservationScalarFieldEnum | ReservationScalarFieldEnum[]
+  }
+
+  /**
    * Position without action
    */
   export type PositionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2067,6 +2283,10 @@ export namespace Prisma {
      * Omit specific fields from the Position
      */
     omit?: PositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PositionInclude<ExtArgs> | null
   }
 
 
@@ -2084,10 +2304,14 @@ export namespace Prisma {
 
   export type ReservationAvgAggregateOutputType = {
     amount: number | null
+    contractRegistrationConfirmations: number | null
+    receivedAmount: number | null
   }
 
   export type ReservationSumAggregateOutputType = {
     amount: bigint | null
+    contractRegistrationConfirmations: number | null
+    receivedAmount: bigint | null
   }
 
   export type ReservationMinAggregateOutputType = {
@@ -2100,6 +2324,13 @@ export namespace Prisma {
     positionId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    contractRegistrationTxHash: string | null
+    contractRegistrationConfirmations: number | null
+    originTxHash: string | null
+    destinationTxHash: string | null
+    receivedAmount: bigint | null
+    receivedAt: Date | null
+    bitcoinAddress: string | null
   }
 
   export type ReservationMaxAggregateOutputType = {
@@ -2112,6 +2343,13 @@ export namespace Prisma {
     positionId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    contractRegistrationTxHash: string | null
+    contractRegistrationConfirmations: number | null
+    originTxHash: string | null
+    destinationTxHash: string | null
+    receivedAmount: bigint | null
+    receivedAt: Date | null
+    bitcoinAddress: string | null
   }
 
   export type ReservationCountAggregateOutputType = {
@@ -2122,18 +2360,30 @@ export namespace Prisma {
     finality: number
     amount: number
     positionId: number
+    transactions: number
     createdAt: number
     updatedAt: number
+    contractRegistrationTxHash: number
+    contractRegistrationConfirmations: number
+    originTxHash: number
+    destinationTxHash: number
+    receivedAmount: number
+    receivedAt: number
+    bitcoinAddress: number
     _all: number
   }
 
 
   export type ReservationAvgAggregateInputType = {
     amount?: true
+    contractRegistrationConfirmations?: true
+    receivedAmount?: true
   }
 
   export type ReservationSumAggregateInputType = {
     amount?: true
+    contractRegistrationConfirmations?: true
+    receivedAmount?: true
   }
 
   export type ReservationMinAggregateInputType = {
@@ -2146,6 +2396,13 @@ export namespace Prisma {
     positionId?: true
     createdAt?: true
     updatedAt?: true
+    contractRegistrationTxHash?: true
+    contractRegistrationConfirmations?: true
+    originTxHash?: true
+    destinationTxHash?: true
+    receivedAmount?: true
+    receivedAt?: true
+    bitcoinAddress?: true
   }
 
   export type ReservationMaxAggregateInputType = {
@@ -2158,6 +2415,13 @@ export namespace Prisma {
     positionId?: true
     createdAt?: true
     updatedAt?: true
+    contractRegistrationTxHash?: true
+    contractRegistrationConfirmations?: true
+    originTxHash?: true
+    destinationTxHash?: true
+    receivedAmount?: true
+    receivedAt?: true
+    bitcoinAddress?: true
   }
 
   export type ReservationCountAggregateInputType = {
@@ -2168,8 +2432,16 @@ export namespace Prisma {
     finality?: true
     amount?: true
     positionId?: true
+    transactions?: true
     createdAt?: true
     updatedAt?: true
+    contractRegistrationTxHash?: true
+    contractRegistrationConfirmations?: true
+    originTxHash?: true
+    destinationTxHash?: true
+    receivedAmount?: true
+    receivedAt?: true
+    bitcoinAddress?: true
     _all?: true
   }
 
@@ -2267,8 +2539,16 @@ export namespace Prisma {
     finality: $Enums.PositionFinality
     amount: bigint
     positionId: string | null
+    transactions: JsonValue
     createdAt: Date
     updatedAt: Date
+    contractRegistrationTxHash: string | null
+    contractRegistrationConfirmations: number | null
+    originTxHash: string | null
+    destinationTxHash: string | null
+    receivedAmount: bigint | null
+    receivedAt: Date | null
+    bitcoinAddress: string | null
     _count: ReservationCountAggregateOutputType | null
     _avg: ReservationAvgAggregateOutputType | null
     _sum: ReservationSumAggregateOutputType | null
@@ -2298,8 +2578,17 @@ export namespace Prisma {
     finality?: boolean
     amount?: boolean
     positionId?: boolean
+    transactions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    contractRegistrationTxHash?: boolean
+    contractRegistrationConfirmations?: boolean
+    originTxHash?: boolean
+    destinationTxHash?: boolean
+    receivedAmount?: boolean
+    receivedAt?: boolean
+    bitcoinAddress?: boolean
+    position?: boolean | Reservation$positionArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
 
   export type ReservationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2310,8 +2599,17 @@ export namespace Prisma {
     finality?: boolean
     amount?: boolean
     positionId?: boolean
+    transactions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    contractRegistrationTxHash?: boolean
+    contractRegistrationConfirmations?: boolean
+    originTxHash?: boolean
+    destinationTxHash?: boolean
+    receivedAmount?: boolean
+    receivedAt?: boolean
+    bitcoinAddress?: boolean
+    position?: boolean | Reservation$positionArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
 
   export type ReservationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2322,8 +2620,17 @@ export namespace Prisma {
     finality?: boolean
     amount?: boolean
     positionId?: boolean
+    transactions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    contractRegistrationTxHash?: boolean
+    contractRegistrationConfirmations?: boolean
+    originTxHash?: boolean
+    destinationTxHash?: boolean
+    receivedAmount?: boolean
+    receivedAt?: boolean
+    bitcoinAddress?: boolean
+    position?: boolean | Reservation$positionArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
 
   export type ReservationSelectScalar = {
@@ -2334,15 +2641,34 @@ export namespace Prisma {
     finality?: boolean
     amount?: boolean
     positionId?: boolean
+    transactions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    contractRegistrationTxHash?: boolean
+    contractRegistrationConfirmations?: boolean
+    originTxHash?: boolean
+    destinationTxHash?: boolean
+    receivedAmount?: boolean
+    receivedAt?: boolean
+    bitcoinAddress?: boolean
   }
 
-  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reservationId" | "ownerAddress" | "state" | "finality" | "amount" | "positionId" | "createdAt" | "updatedAt", ExtArgs["result"]["reservation"]>
+  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reservationId" | "ownerAddress" | "state" | "finality" | "amount" | "positionId" | "transactions" | "createdAt" | "updatedAt" | "contractRegistrationTxHash" | "contractRegistrationConfirmations" | "originTxHash" | "destinationTxHash" | "receivedAmount" | "receivedAt" | "bitcoinAddress", ExtArgs["result"]["reservation"]>
+  export type ReservationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    position?: boolean | Reservation$positionArgs<ExtArgs>
+  }
+  export type ReservationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    position?: boolean | Reservation$positionArgs<ExtArgs>
+  }
+  export type ReservationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    position?: boolean | Reservation$positionArgs<ExtArgs>
+  }
 
   export type $ReservationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Reservation"
-    objects: {}
+    objects: {
+      position: Prisma.$PositionPayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       reservationId: string
@@ -2351,8 +2677,16 @@ export namespace Prisma {
       finality: $Enums.PositionFinality
       amount: bigint
       positionId: string | null
+      transactions: Prisma.JsonValue
       createdAt: Date
       updatedAt: Date
+      contractRegistrationTxHash: string | null
+      contractRegistrationConfirmations: number | null
+      originTxHash: string | null
+      destinationTxHash: string | null
+      receivedAmount: bigint | null
+      receivedAt: Date | null
+      bitcoinAddress: string | null
     }, ExtArgs["result"]["reservation"]>
     composites: {}
   }
@@ -2747,6 +3081,7 @@ export namespace Prisma {
    */
   export interface Prisma__ReservationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    position<T extends Reservation$positionArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$positionArgs<ExtArgs>>): Prisma__PositionClient<$Result.GetResult<Prisma.$PositionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2783,8 +3118,16 @@ export namespace Prisma {
     readonly finality: FieldRef<"Reservation", 'PositionFinality'>
     readonly amount: FieldRef<"Reservation", 'BigInt'>
     readonly positionId: FieldRef<"Reservation", 'String'>
+    readonly transactions: FieldRef<"Reservation", 'Json'>
     readonly createdAt: FieldRef<"Reservation", 'DateTime'>
     readonly updatedAt: FieldRef<"Reservation", 'DateTime'>
+    readonly contractRegistrationTxHash: FieldRef<"Reservation", 'String'>
+    readonly contractRegistrationConfirmations: FieldRef<"Reservation", 'Int'>
+    readonly originTxHash: FieldRef<"Reservation", 'String'>
+    readonly destinationTxHash: FieldRef<"Reservation", 'String'>
+    readonly receivedAmount: FieldRef<"Reservation", 'BigInt'>
+    readonly receivedAt: FieldRef<"Reservation", 'DateTime'>
+    readonly bitcoinAddress: FieldRef<"Reservation", 'String'>
   }
     
 
@@ -2801,6 +3144,10 @@ export namespace Prisma {
      * Omit specific fields from the Reservation
      */
     omit?: ReservationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
     /**
      * Filter, which Reservation to fetch.
      */
@@ -2820,6 +3167,10 @@ export namespace Prisma {
      */
     omit?: ReservationOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
+    /**
      * Filter, which Reservation to fetch.
      */
     where: ReservationWhereUniqueInput
@@ -2837,6 +3188,10 @@ export namespace Prisma {
      * Omit specific fields from the Reservation
      */
     omit?: ReservationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
     /**
      * Filter, which Reservation to fetch.
      */
@@ -2886,6 +3241,10 @@ export namespace Prisma {
      */
     omit?: ReservationOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
+    /**
      * Filter, which Reservation to fetch.
      */
     where?: ReservationWhereInput
@@ -2934,6 +3293,10 @@ export namespace Prisma {
      */
     omit?: ReservationOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
+    /**
      * Filter, which Reservations to fetch.
      */
     where?: ReservationWhereInput
@@ -2977,6 +3340,10 @@ export namespace Prisma {
      */
     omit?: ReservationOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
+    /**
      * The data needed to create a Reservation.
      */
     data: XOR<ReservationCreateInput, ReservationUncheckedCreateInput>
@@ -3010,6 +3377,10 @@ export namespace Prisma {
      */
     data: ReservationCreateManyInput | ReservationCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3024,6 +3395,10 @@ export namespace Prisma {
      * Omit specific fields from the Reservation
      */
     omit?: ReservationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
     /**
      * The data needed to update a Reservation.
      */
@@ -3076,6 +3451,10 @@ export namespace Prisma {
      * Limit how many Reservations to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3090,6 +3469,10 @@ export namespace Prisma {
      * Omit specific fields from the Reservation
      */
     omit?: ReservationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
     /**
      * The filter to search for the Reservation to update in case it exists.
      */
@@ -3117,6 +3500,10 @@ export namespace Prisma {
      */
     omit?: ReservationOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
+    /**
      * Filter which Reservation to delete.
      */
     where: ReservationWhereUniqueInput
@@ -3137,6 +3524,25 @@ export namespace Prisma {
   }
 
   /**
+   * Reservation.position
+   */
+  export type Reservation$positionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Position
+     */
+    select?: PositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Position
+     */
+    omit?: PositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PositionInclude<ExtArgs> | null
+    where?: PositionWhereInput
+  }
+
+  /**
    * Reservation without action
    */
   export type ReservationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3148,6 +3554,10 @@ export namespace Prisma {
      * Omit specific fields from the Reservation
      */
     omit?: ReservationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
   }
 
 
@@ -3173,7 +3583,14 @@ export namespace Prisma {
     finality: 'finality',
     amount: 'amount',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    contractRegistrationTxHash: 'contractRegistrationTxHash',
+    contractRegistrationConfirmations: 'contractRegistrationConfirmations',
+    originTxHash: 'originTxHash',
+    destinationTxHash: 'destinationTxHash',
+    receivedAmount: 'receivedAmount',
+    receivedAt: 'receivedAt',
+    bitcoinAddress: 'bitcoinAddress'
   };
 
   export type PositionScalarFieldEnum = (typeof PositionScalarFieldEnum)[keyof typeof PositionScalarFieldEnum]
@@ -3187,8 +3604,16 @@ export namespace Prisma {
     finality: 'finality',
     amount: 'amount',
     positionId: 'positionId',
+    transactions: 'transactions',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    contractRegistrationTxHash: 'contractRegistrationTxHash',
+    contractRegistrationConfirmations: 'contractRegistrationConfirmations',
+    originTxHash: 'originTxHash',
+    destinationTxHash: 'destinationTxHash',
+    receivedAmount: 'receivedAmount',
+    receivedAt: 'receivedAt',
+    bitcoinAddress: 'bitcoinAddress'
   };
 
   export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
@@ -3200,6 +3625,13 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -3216,6 +3648,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -3238,16 +3679,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'PositionState'
+   * Reference to a field of type 'PositionStatus'
    */
-  export type EnumPositionStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PositionState'>
+  export type EnumPositionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PositionStatus'>
     
 
 
   /**
-   * Reference to a field of type 'PositionState[]'
+   * Reference to a field of type 'PositionStatus[]'
    */
-  export type ListEnumPositionStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PositionState[]'>
+  export type ListEnumPositionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PositionStatus[]'>
     
 
 
@@ -3294,6 +3735,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'ReservationStatus'
    */
   export type EnumReservationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReservationStatus'>
@@ -3308,16 +3763,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Json'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
   /**
-   * Reference to a field of type 'Int[]'
+   * Reference to a field of type 'QueryMode'
    */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -3345,11 +3800,19 @@ export namespace Prisma {
     id?: StringFilter<"Position"> | string
     positionId?: StringFilter<"Position"> | string
     ownerAddress?: StringFilter<"Position"> | string
-    state?: EnumPositionStateFilter<"Position"> | $Enums.PositionState
+    state?: EnumPositionStatusFilter<"Position"> | $Enums.PositionStatus
     finality?: EnumPositionFinalityFilter<"Position"> | $Enums.PositionFinality
     amount?: BigIntFilter<"Position"> | bigint | number
     createdAt?: DateTimeFilter<"Position"> | Date | string
     updatedAt?: DateTimeFilter<"Position"> | Date | string
+    contractRegistrationTxHash?: StringNullableFilter<"Position"> | string | null
+    contractRegistrationConfirmations?: IntNullableFilter<"Position"> | number | null
+    originTxHash?: StringNullableFilter<"Position"> | string | null
+    destinationTxHash?: StringNullableFilter<"Position"> | string | null
+    receivedAmount?: BigIntNullableFilter<"Position"> | bigint | number | null
+    receivedAt?: DateTimeNullableFilter<"Position"> | Date | string | null
+    bitcoinAddress?: StringNullableFilter<"Position"> | string | null
+    reservations?: ReservationListRelationFilter
   }
 
   export type PositionOrderByWithRelationInput = {
@@ -3361,6 +3824,14 @@ export namespace Prisma {
     amount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    contractRegistrationTxHash?: SortOrderInput | SortOrder
+    contractRegistrationConfirmations?: SortOrderInput | SortOrder
+    originTxHash?: SortOrderInput | SortOrder
+    destinationTxHash?: SortOrderInput | SortOrder
+    receivedAmount?: SortOrderInput | SortOrder
+    receivedAt?: SortOrderInput | SortOrder
+    bitcoinAddress?: SortOrderInput | SortOrder
+    reservations?: ReservationOrderByRelationAggregateInput
   }
 
   export type PositionWhereUniqueInput = Prisma.AtLeast<{
@@ -3370,11 +3841,19 @@ export namespace Prisma {
     OR?: PositionWhereInput[]
     NOT?: PositionWhereInput | PositionWhereInput[]
     ownerAddress?: StringFilter<"Position"> | string
-    state?: EnumPositionStateFilter<"Position"> | $Enums.PositionState
+    state?: EnumPositionStatusFilter<"Position"> | $Enums.PositionStatus
     finality?: EnumPositionFinalityFilter<"Position"> | $Enums.PositionFinality
     amount?: BigIntFilter<"Position"> | bigint | number
     createdAt?: DateTimeFilter<"Position"> | Date | string
     updatedAt?: DateTimeFilter<"Position"> | Date | string
+    contractRegistrationTxHash?: StringNullableFilter<"Position"> | string | null
+    contractRegistrationConfirmations?: IntNullableFilter<"Position"> | number | null
+    originTxHash?: StringNullableFilter<"Position"> | string | null
+    destinationTxHash?: StringNullableFilter<"Position"> | string | null
+    receivedAmount?: BigIntNullableFilter<"Position"> | bigint | number | null
+    receivedAt?: DateTimeNullableFilter<"Position"> | Date | string | null
+    bitcoinAddress?: StringNullableFilter<"Position"> | string | null
+    reservations?: ReservationListRelationFilter
   }, "id" | "positionId">
 
   export type PositionOrderByWithAggregationInput = {
@@ -3386,6 +3865,13 @@ export namespace Prisma {
     amount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    contractRegistrationTxHash?: SortOrderInput | SortOrder
+    contractRegistrationConfirmations?: SortOrderInput | SortOrder
+    originTxHash?: SortOrderInput | SortOrder
+    destinationTxHash?: SortOrderInput | SortOrder
+    receivedAmount?: SortOrderInput | SortOrder
+    receivedAt?: SortOrderInput | SortOrder
+    bitcoinAddress?: SortOrderInput | SortOrder
     _count?: PositionCountOrderByAggregateInput
     _avg?: PositionAvgOrderByAggregateInput
     _max?: PositionMaxOrderByAggregateInput
@@ -3400,11 +3886,18 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Position"> | string
     positionId?: StringWithAggregatesFilter<"Position"> | string
     ownerAddress?: StringWithAggregatesFilter<"Position"> | string
-    state?: EnumPositionStateWithAggregatesFilter<"Position"> | $Enums.PositionState
+    state?: EnumPositionStatusWithAggregatesFilter<"Position"> | $Enums.PositionStatus
     finality?: EnumPositionFinalityWithAggregatesFilter<"Position"> | $Enums.PositionFinality
     amount?: BigIntWithAggregatesFilter<"Position"> | bigint | number
     createdAt?: DateTimeWithAggregatesFilter<"Position"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Position"> | Date | string
+    contractRegistrationTxHash?: StringNullableWithAggregatesFilter<"Position"> | string | null
+    contractRegistrationConfirmations?: IntNullableWithAggregatesFilter<"Position"> | number | null
+    originTxHash?: StringNullableWithAggregatesFilter<"Position"> | string | null
+    destinationTxHash?: StringNullableWithAggregatesFilter<"Position"> | string | null
+    receivedAmount?: BigIntNullableWithAggregatesFilter<"Position"> | bigint | number | null
+    receivedAt?: DateTimeNullableWithAggregatesFilter<"Position"> | Date | string | null
+    bitcoinAddress?: StringNullableWithAggregatesFilter<"Position"> | string | null
   }
 
   export type ReservationWhereInput = {
@@ -3418,8 +3911,17 @@ export namespace Prisma {
     finality?: EnumPositionFinalityFilter<"Reservation"> | $Enums.PositionFinality
     amount?: BigIntFilter<"Reservation"> | bigint | number
     positionId?: StringNullableFilter<"Reservation"> | string | null
+    transactions?: JsonFilter<"Reservation">
     createdAt?: DateTimeFilter<"Reservation"> | Date | string
     updatedAt?: DateTimeFilter<"Reservation"> | Date | string
+    contractRegistrationTxHash?: StringNullableFilter<"Reservation"> | string | null
+    contractRegistrationConfirmations?: IntNullableFilter<"Reservation"> | number | null
+    originTxHash?: StringNullableFilter<"Reservation"> | string | null
+    destinationTxHash?: StringNullableFilter<"Reservation"> | string | null
+    receivedAmount?: BigIntNullableFilter<"Reservation"> | bigint | number | null
+    receivedAt?: DateTimeNullableFilter<"Reservation"> | Date | string | null
+    bitcoinAddress?: StringNullableFilter<"Reservation"> | string | null
+    position?: XOR<PositionNullableScalarRelationFilter, PositionWhereInput> | null
   }
 
   export type ReservationOrderByWithRelationInput = {
@@ -3430,8 +3932,17 @@ export namespace Prisma {
     finality?: SortOrder
     amount?: SortOrder
     positionId?: SortOrderInput | SortOrder
+    transactions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    contractRegistrationTxHash?: SortOrderInput | SortOrder
+    contractRegistrationConfirmations?: SortOrderInput | SortOrder
+    originTxHash?: SortOrderInput | SortOrder
+    destinationTxHash?: SortOrderInput | SortOrder
+    receivedAmount?: SortOrderInput | SortOrder
+    receivedAt?: SortOrderInput | SortOrder
+    bitcoinAddress?: SortOrderInput | SortOrder
+    position?: PositionOrderByWithRelationInput
   }
 
   export type ReservationWhereUniqueInput = Prisma.AtLeast<{
@@ -3445,8 +3956,17 @@ export namespace Prisma {
     finality?: EnumPositionFinalityFilter<"Reservation"> | $Enums.PositionFinality
     amount?: BigIntFilter<"Reservation"> | bigint | number
     positionId?: StringNullableFilter<"Reservation"> | string | null
+    transactions?: JsonFilter<"Reservation">
     createdAt?: DateTimeFilter<"Reservation"> | Date | string
     updatedAt?: DateTimeFilter<"Reservation"> | Date | string
+    contractRegistrationTxHash?: StringNullableFilter<"Reservation"> | string | null
+    contractRegistrationConfirmations?: IntNullableFilter<"Reservation"> | number | null
+    originTxHash?: StringNullableFilter<"Reservation"> | string | null
+    destinationTxHash?: StringNullableFilter<"Reservation"> | string | null
+    receivedAmount?: BigIntNullableFilter<"Reservation"> | bigint | number | null
+    receivedAt?: DateTimeNullableFilter<"Reservation"> | Date | string | null
+    bitcoinAddress?: StringNullableFilter<"Reservation"> | string | null
+    position?: XOR<PositionNullableScalarRelationFilter, PositionWhereInput> | null
   }, "id" | "reservationId">
 
   export type ReservationOrderByWithAggregationInput = {
@@ -3457,8 +3977,16 @@ export namespace Prisma {
     finality?: SortOrder
     amount?: SortOrder
     positionId?: SortOrderInput | SortOrder
+    transactions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    contractRegistrationTxHash?: SortOrderInput | SortOrder
+    contractRegistrationConfirmations?: SortOrderInput | SortOrder
+    originTxHash?: SortOrderInput | SortOrder
+    destinationTxHash?: SortOrderInput | SortOrder
+    receivedAmount?: SortOrderInput | SortOrder
+    receivedAt?: SortOrderInput | SortOrder
+    bitcoinAddress?: SortOrderInput | SortOrder
     _count?: ReservationCountOrderByAggregateInput
     _avg?: ReservationAvgOrderByAggregateInput
     _max?: ReservationMaxOrderByAggregateInput
@@ -3477,85 +4005,146 @@ export namespace Prisma {
     finality?: EnumPositionFinalityWithAggregatesFilter<"Reservation"> | $Enums.PositionFinality
     amount?: BigIntWithAggregatesFilter<"Reservation"> | bigint | number
     positionId?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
+    transactions?: JsonWithAggregatesFilter<"Reservation">
     createdAt?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
+    contractRegistrationTxHash?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
+    contractRegistrationConfirmations?: IntNullableWithAggregatesFilter<"Reservation"> | number | null
+    originTxHash?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
+    destinationTxHash?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
+    receivedAmount?: BigIntNullableWithAggregatesFilter<"Reservation"> | bigint | number | null
+    receivedAt?: DateTimeNullableWithAggregatesFilter<"Reservation"> | Date | string | null
+    bitcoinAddress?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
   }
 
   export type PositionCreateInput = {
     id?: string
     positionId: string
     ownerAddress: string
-    state?: $Enums.PositionState
+    state?: $Enums.PositionStatus
     finality?: $Enums.PositionFinality
     amount: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
+    contractRegistrationTxHash?: string | null
+    contractRegistrationConfirmations?: number | null
+    originTxHash?: string | null
+    destinationTxHash?: string | null
+    receivedAmount?: bigint | number | null
+    receivedAt?: Date | string | null
+    bitcoinAddress?: string | null
+    reservations?: ReservationCreateNestedManyWithoutPositionInput
   }
 
   export type PositionUncheckedCreateInput = {
     id?: string
     positionId: string
     ownerAddress: string
-    state?: $Enums.PositionState
+    state?: $Enums.PositionStatus
     finality?: $Enums.PositionFinality
     amount: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
+    contractRegistrationTxHash?: string | null
+    contractRegistrationConfirmations?: number | null
+    originTxHash?: string | null
+    destinationTxHash?: string | null
+    receivedAmount?: bigint | number | null
+    receivedAt?: Date | string | null
+    bitcoinAddress?: string | null
+    reservations?: ReservationUncheckedCreateNestedManyWithoutPositionInput
   }
 
   export type PositionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     positionId?: StringFieldUpdateOperationsInput | string
     ownerAddress?: StringFieldUpdateOperationsInput | string
-    state?: EnumPositionStateFieldUpdateOperationsInput | $Enums.PositionState
+    state?: EnumPositionStatusFieldUpdateOperationsInput | $Enums.PositionStatus
     finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    reservations?: ReservationUpdateManyWithoutPositionNestedInput
   }
 
   export type PositionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     positionId?: StringFieldUpdateOperationsInput | string
     ownerAddress?: StringFieldUpdateOperationsInput | string
-    state?: EnumPositionStateFieldUpdateOperationsInput | $Enums.PositionState
+    state?: EnumPositionStatusFieldUpdateOperationsInput | $Enums.PositionStatus
     finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    reservations?: ReservationUncheckedUpdateManyWithoutPositionNestedInput
   }
 
   export type PositionCreateManyInput = {
     id?: string
     positionId: string
     ownerAddress: string
-    state?: $Enums.PositionState
+    state?: $Enums.PositionStatus
     finality?: $Enums.PositionFinality
     amount: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
+    contractRegistrationTxHash?: string | null
+    contractRegistrationConfirmations?: number | null
+    originTxHash?: string | null
+    destinationTxHash?: string | null
+    receivedAmount?: bigint | number | null
+    receivedAt?: Date | string | null
+    bitcoinAddress?: string | null
   }
 
   export type PositionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     positionId?: StringFieldUpdateOperationsInput | string
     ownerAddress?: StringFieldUpdateOperationsInput | string
-    state?: EnumPositionStateFieldUpdateOperationsInput | $Enums.PositionState
+    state?: EnumPositionStatusFieldUpdateOperationsInput | $Enums.PositionStatus
     finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PositionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     positionId?: StringFieldUpdateOperationsInput | string
     ownerAddress?: StringFieldUpdateOperationsInput | string
-    state?: EnumPositionStateFieldUpdateOperationsInput | $Enums.PositionState
+    state?: EnumPositionStatusFieldUpdateOperationsInput | $Enums.PositionStatus
     finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReservationCreateInput = {
@@ -3565,9 +4154,17 @@ export namespace Prisma {
     state?: $Enums.ReservationStatus
     finality?: $Enums.PositionFinality
     amount: bigint | number
-    positionId?: string | null
+    transactions?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    contractRegistrationTxHash?: string | null
+    contractRegistrationConfirmations?: number | null
+    originTxHash?: string | null
+    destinationTxHash?: string | null
+    receivedAmount?: bigint | number | null
+    receivedAt?: Date | string | null
+    bitcoinAddress?: string | null
+    position?: PositionCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateInput = {
@@ -3578,8 +4175,16 @@ export namespace Prisma {
     finality?: $Enums.PositionFinality
     amount: bigint | number
     positionId?: string | null
+    transactions?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    contractRegistrationTxHash?: string | null
+    contractRegistrationConfirmations?: number | null
+    originTxHash?: string | null
+    destinationTxHash?: string | null
+    receivedAmount?: bigint | number | null
+    receivedAt?: Date | string | null
+    bitcoinAddress?: string | null
   }
 
   export type ReservationUpdateInput = {
@@ -3589,9 +4194,17 @@ export namespace Prisma {
     state?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
-    positionId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactions?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: PositionUpdateOneWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateInput = {
@@ -3602,8 +4215,16 @@ export namespace Prisma {
     finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
     positionId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactions?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReservationCreateManyInput = {
@@ -3614,8 +4235,16 @@ export namespace Prisma {
     finality?: $Enums.PositionFinality
     amount: bigint | number
     positionId?: string | null
+    transactions?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    contractRegistrationTxHash?: string | null
+    contractRegistrationConfirmations?: number | null
+    originTxHash?: string | null
+    destinationTxHash?: string | null
+    receivedAmount?: bigint | number | null
+    receivedAt?: Date | string | null
+    bitcoinAddress?: string | null
   }
 
   export type ReservationUpdateManyMutationInput = {
@@ -3625,9 +4254,16 @@ export namespace Prisma {
     state?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
-    positionId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactions?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReservationUncheckedUpdateManyInput = {
@@ -3638,8 +4274,16 @@ export namespace Prisma {
     finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
     amount?: BigIntFieldUpdateOperationsInput | bigint | number
     positionId?: NullableStringFieldUpdateOperationsInput | string | null
+    transactions?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3657,11 +4301,11 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type EnumPositionStateFilter<$PrismaModel = never> = {
-    equals?: $Enums.PositionState | EnumPositionStateFieldRefInput<$PrismaModel>
-    in?: $Enums.PositionState[] | ListEnumPositionStateFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PositionState[] | ListEnumPositionStateFieldRefInput<$PrismaModel>
-    not?: NestedEnumPositionStateFilter<$PrismaModel> | $Enums.PositionState
+  export type EnumPositionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PositionStatus | EnumPositionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PositionStatus[] | ListEnumPositionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PositionStatus[] | ListEnumPositionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPositionStatusFilter<$PrismaModel> | $Enums.PositionStatus
   }
 
   export type EnumPositionFinalityFilter<$PrismaModel = never> = {
@@ -3693,6 +4337,69 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type BigIntNullableFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type ReservationListRelationFilter = {
+    every?: ReservationWhereInput
+    some?: ReservationWhereInput
+    none?: ReservationWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type ReservationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type PositionCountOrderByAggregateInput = {
     id?: SortOrder
     positionId?: SortOrder
@@ -3702,10 +4409,19 @@ export namespace Prisma {
     amount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    contractRegistrationTxHash?: SortOrder
+    contractRegistrationConfirmations?: SortOrder
+    originTxHash?: SortOrder
+    destinationTxHash?: SortOrder
+    receivedAmount?: SortOrder
+    receivedAt?: SortOrder
+    bitcoinAddress?: SortOrder
   }
 
   export type PositionAvgOrderByAggregateInput = {
     amount?: SortOrder
+    contractRegistrationConfirmations?: SortOrder
+    receivedAmount?: SortOrder
   }
 
   export type PositionMaxOrderByAggregateInput = {
@@ -3717,6 +4433,13 @@ export namespace Prisma {
     amount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    contractRegistrationTxHash?: SortOrder
+    contractRegistrationConfirmations?: SortOrder
+    originTxHash?: SortOrder
+    destinationTxHash?: SortOrder
+    receivedAmount?: SortOrder
+    receivedAt?: SortOrder
+    bitcoinAddress?: SortOrder
   }
 
   export type PositionMinOrderByAggregateInput = {
@@ -3728,10 +4451,19 @@ export namespace Prisma {
     amount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    contractRegistrationTxHash?: SortOrder
+    contractRegistrationConfirmations?: SortOrder
+    originTxHash?: SortOrder
+    destinationTxHash?: SortOrder
+    receivedAmount?: SortOrder
+    receivedAt?: SortOrder
+    bitcoinAddress?: SortOrder
   }
 
   export type PositionSumOrderByAggregateInput = {
     amount?: SortOrder
+    contractRegistrationConfirmations?: SortOrder
+    receivedAmount?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -3752,14 +4484,14 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type EnumPositionStateWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PositionState | EnumPositionStateFieldRefInput<$PrismaModel>
-    in?: $Enums.PositionState[] | ListEnumPositionStateFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PositionState[] | ListEnumPositionStateFieldRefInput<$PrismaModel>
-    not?: NestedEnumPositionStateWithAggregatesFilter<$PrismaModel> | $Enums.PositionState
+  export type EnumPositionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PositionStatus | EnumPositionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PositionStatus[] | ListEnumPositionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PositionStatus[] | ListEnumPositionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPositionStatusWithAggregatesFilter<$PrismaModel> | $Enums.PositionStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPositionStateFilter<$PrismaModel>
-    _max?: NestedEnumPositionStateFilter<$PrismaModel>
+    _min?: NestedEnumPositionStatusFilter<$PrismaModel>
+    _max?: NestedEnumPositionStatusFilter<$PrismaModel>
   }
 
   export type EnumPositionFinalityWithAggregatesFilter<$PrismaModel = never> = {
@@ -3802,87 +4534,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type EnumReservationStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.ReservationStatus | EnumReservationStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumReservationStatusFilter<$PrismaModel> | $Enums.ReservationStatus
-  }
-
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
-  export type ReservationCountOrderByAggregateInput = {
-    id?: SortOrder
-    reservationId?: SortOrder
-    ownerAddress?: SortOrder
-    state?: SortOrder
-    finality?: SortOrder
-    amount?: SortOrder
-    positionId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ReservationAvgOrderByAggregateInput = {
-    amount?: SortOrder
-  }
-
-  export type ReservationMaxOrderByAggregateInput = {
-    id?: SortOrder
-    reservationId?: SortOrder
-    ownerAddress?: SortOrder
-    state?: SortOrder
-    finality?: SortOrder
-    amount?: SortOrder
-    positionId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ReservationMinOrderByAggregateInput = {
-    id?: SortOrder
-    reservationId?: SortOrder
-    ownerAddress?: SortOrder
-    state?: SortOrder
-    finality?: SortOrder
-    amount?: SortOrder
-    positionId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ReservationSumOrderByAggregateInput = {
-    amount?: SortOrder
-  }
-
-  export type EnumReservationStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ReservationStatus | EnumReservationStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumReservationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ReservationStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumReservationStatusFilter<$PrismaModel>
-    _max?: NestedEnumReservationStatusFilter<$PrismaModel>
-  }
-
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -3901,12 +4552,213 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type BigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableWithAggregatesFilter<$PrismaModel> | bigint | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedBigIntNullableFilter<$PrismaModel>
+    _min?: NestedBigIntNullableFilter<$PrismaModel>
+    _max?: NestedBigIntNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type EnumReservationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReservationStatus | EnumReservationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumReservationStatusFilter<$PrismaModel> | $Enums.ReservationStatus
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type PositionNullableScalarRelationFilter = {
+    is?: PositionWhereInput | null
+    isNot?: PositionWhereInput | null
+  }
+
+  export type ReservationCountOrderByAggregateInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    ownerAddress?: SortOrder
+    state?: SortOrder
+    finality?: SortOrder
+    amount?: SortOrder
+    positionId?: SortOrder
+    transactions?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contractRegistrationTxHash?: SortOrder
+    contractRegistrationConfirmations?: SortOrder
+    originTxHash?: SortOrder
+    destinationTxHash?: SortOrder
+    receivedAmount?: SortOrder
+    receivedAt?: SortOrder
+    bitcoinAddress?: SortOrder
+  }
+
+  export type ReservationAvgOrderByAggregateInput = {
+    amount?: SortOrder
+    contractRegistrationConfirmations?: SortOrder
+    receivedAmount?: SortOrder
+  }
+
+  export type ReservationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    ownerAddress?: SortOrder
+    state?: SortOrder
+    finality?: SortOrder
+    amount?: SortOrder
+    positionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contractRegistrationTxHash?: SortOrder
+    contractRegistrationConfirmations?: SortOrder
+    originTxHash?: SortOrder
+    destinationTxHash?: SortOrder
+    receivedAmount?: SortOrder
+    receivedAt?: SortOrder
+    bitcoinAddress?: SortOrder
+  }
+
+  export type ReservationMinOrderByAggregateInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    ownerAddress?: SortOrder
+    state?: SortOrder
+    finality?: SortOrder
+    amount?: SortOrder
+    positionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contractRegistrationTxHash?: SortOrder
+    contractRegistrationConfirmations?: SortOrder
+    originTxHash?: SortOrder
+    destinationTxHash?: SortOrder
+    receivedAmount?: SortOrder
+    receivedAt?: SortOrder
+    bitcoinAddress?: SortOrder
+  }
+
+  export type ReservationSumOrderByAggregateInput = {
+    amount?: SortOrder
+    contractRegistrationConfirmations?: SortOrder
+    receivedAmount?: SortOrder
+  }
+
+  export type EnumReservationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReservationStatus | EnumReservationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumReservationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ReservationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReservationStatusFilter<$PrismaModel>
+    _max?: NestedEnumReservationStatusFilter<$PrismaModel>
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type ReservationCreateNestedManyWithoutPositionInput = {
+    create?: XOR<ReservationCreateWithoutPositionInput, ReservationUncheckedCreateWithoutPositionInput> | ReservationCreateWithoutPositionInput[] | ReservationUncheckedCreateWithoutPositionInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutPositionInput | ReservationCreateOrConnectWithoutPositionInput[]
+    createMany?: ReservationCreateManyPositionInputEnvelope
+    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+  }
+
+  export type ReservationUncheckedCreateNestedManyWithoutPositionInput = {
+    create?: XOR<ReservationCreateWithoutPositionInput, ReservationUncheckedCreateWithoutPositionInput> | ReservationCreateWithoutPositionInput[] | ReservationUncheckedCreateWithoutPositionInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutPositionInput | ReservationCreateOrConnectWithoutPositionInput[]
+    createMany?: ReservationCreateManyPositionInputEnvelope
+    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
-  export type EnumPositionStateFieldUpdateOperationsInput = {
-    set?: $Enums.PositionState
+  export type EnumPositionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PositionStatus
   }
 
   export type EnumPositionFinalityFieldUpdateOperationsInput = {
@@ -3925,12 +4777,76 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableBigIntFieldUpdateOperationsInput = {
+    set?: bigint | number | null
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type ReservationUpdateManyWithoutPositionNestedInput = {
+    create?: XOR<ReservationCreateWithoutPositionInput, ReservationUncheckedCreateWithoutPositionInput> | ReservationCreateWithoutPositionInput[] | ReservationUncheckedCreateWithoutPositionInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutPositionInput | ReservationCreateOrConnectWithoutPositionInput[]
+    upsert?: ReservationUpsertWithWhereUniqueWithoutPositionInput | ReservationUpsertWithWhereUniqueWithoutPositionInput[]
+    createMany?: ReservationCreateManyPositionInputEnvelope
+    set?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    disconnect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    delete?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    update?: ReservationUpdateWithWhereUniqueWithoutPositionInput | ReservationUpdateWithWhereUniqueWithoutPositionInput[]
+    updateMany?: ReservationUpdateManyWithWhereWithoutPositionInput | ReservationUpdateManyWithWhereWithoutPositionInput[]
+    deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  }
+
+  export type ReservationUncheckedUpdateManyWithoutPositionNestedInput = {
+    create?: XOR<ReservationCreateWithoutPositionInput, ReservationUncheckedCreateWithoutPositionInput> | ReservationCreateWithoutPositionInput[] | ReservationUncheckedCreateWithoutPositionInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutPositionInput | ReservationCreateOrConnectWithoutPositionInput[]
+    upsert?: ReservationUpsertWithWhereUniqueWithoutPositionInput | ReservationUpsertWithWhereUniqueWithoutPositionInput[]
+    createMany?: ReservationCreateManyPositionInputEnvelope
+    set?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    disconnect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    delete?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    update?: ReservationUpdateWithWhereUniqueWithoutPositionInput | ReservationUpdateWithWhereUniqueWithoutPositionInput[]
+    updateMany?: ReservationUpdateManyWithWhereWithoutPositionInput | ReservationUpdateManyWithWhereWithoutPositionInput[]
+    deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  }
+
+  export type PositionCreateNestedOneWithoutReservationsInput = {
+    create?: XOR<PositionCreateWithoutReservationsInput, PositionUncheckedCreateWithoutReservationsInput>
+    connectOrCreate?: PositionCreateOrConnectWithoutReservationsInput
+    connect?: PositionWhereUniqueInput
+  }
+
   export type EnumReservationStatusFieldUpdateOperationsInput = {
     set?: $Enums.ReservationStatus
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
+  export type PositionUpdateOneWithoutReservationsNestedInput = {
+    create?: XOR<PositionCreateWithoutReservationsInput, PositionUncheckedCreateWithoutReservationsInput>
+    connectOrCreate?: PositionCreateOrConnectWithoutReservationsInput
+    upsert?: PositionUpsertWithoutReservationsInput
+    disconnect?: PositionWhereInput | boolean
+    delete?: PositionWhereInput | boolean
+    connect?: PositionWhereUniqueInput
+    update?: XOR<XOR<PositionUpdateToOneWithWhereWithoutReservationsInput, PositionUpdateWithoutReservationsInput>, PositionUncheckedUpdateWithoutReservationsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -3947,11 +4863,11 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedEnumPositionStateFilter<$PrismaModel = never> = {
-    equals?: $Enums.PositionState | EnumPositionStateFieldRefInput<$PrismaModel>
-    in?: $Enums.PositionState[] | ListEnumPositionStateFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PositionState[] | ListEnumPositionStateFieldRefInput<$PrismaModel>
-    not?: NestedEnumPositionStateFilter<$PrismaModel> | $Enums.PositionState
+  export type NestedEnumPositionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PositionStatus | EnumPositionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PositionStatus[] | ListEnumPositionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PositionStatus[] | ListEnumPositionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPositionStatusFilter<$PrismaModel> | $Enums.PositionStatus
   }
 
   export type NestedEnumPositionFinalityFilter<$PrismaModel = never> = {
@@ -3983,6 +4899,53 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBigIntNullableFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -4011,14 +4974,14 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedEnumPositionStateWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PositionState | EnumPositionStateFieldRefInput<$PrismaModel>
-    in?: $Enums.PositionState[] | ListEnumPositionStateFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PositionState[] | ListEnumPositionStateFieldRefInput<$PrismaModel>
-    not?: NestedEnumPositionStateWithAggregatesFilter<$PrismaModel> | $Enums.PositionState
+  export type NestedEnumPositionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PositionStatus | EnumPositionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PositionStatus[] | ListEnumPositionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PositionStatus[] | ListEnumPositionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPositionStatusWithAggregatesFilter<$PrismaModel> | $Enums.PositionStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPositionStateFilter<$PrismaModel>
-    _max?: NestedEnumPositionStateFilter<$PrismaModel>
+    _min?: NestedEnumPositionStatusFilter<$PrismaModel>
+    _max?: NestedEnumPositionStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumPositionFinalityWithAggregatesFilter<$PrismaModel = never> = {
@@ -4072,37 +5035,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedEnumReservationStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.ReservationStatus | EnumReservationStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumReservationStatusFilter<$PrismaModel> | $Enums.ReservationStatus
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedEnumReservationStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ReservationStatus | EnumReservationStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumReservationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ReservationStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumReservationStatusFilter<$PrismaModel>
-    _max?: NestedEnumReservationStatusFilter<$PrismaModel>
-  }
-
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -4120,7 +5052,7 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -4128,7 +5060,344 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableWithAggregatesFilter<$PrismaModel> | bigint | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedBigIntNullableFilter<$PrismaModel>
+    _min?: NestedBigIntNullableFilter<$PrismaModel>
+    _max?: NestedBigIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumReservationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReservationStatus | EnumReservationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumReservationStatusFilter<$PrismaModel> | $Enums.ReservationStatus
+  }
+
+  export type NestedEnumReservationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReservationStatus | EnumReservationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ReservationStatus[] | ListEnumReservationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumReservationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ReservationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReservationStatusFilter<$PrismaModel>
+    _max?: NestedEnumReservationStatusFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type ReservationCreateWithoutPositionInput = {
+    id?: string
+    reservationId: string
+    ownerAddress: string
+    state?: $Enums.ReservationStatus
+    finality?: $Enums.PositionFinality
+    amount: bigint | number
+    transactions?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contractRegistrationTxHash?: string | null
+    contractRegistrationConfirmations?: number | null
+    originTxHash?: string | null
+    destinationTxHash?: string | null
+    receivedAmount?: bigint | number | null
+    receivedAt?: Date | string | null
+    bitcoinAddress?: string | null
+  }
+
+  export type ReservationUncheckedCreateWithoutPositionInput = {
+    id?: string
+    reservationId: string
+    ownerAddress: string
+    state?: $Enums.ReservationStatus
+    finality?: $Enums.PositionFinality
+    amount: bigint | number
+    transactions?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contractRegistrationTxHash?: string | null
+    contractRegistrationConfirmations?: number | null
+    originTxHash?: string | null
+    destinationTxHash?: string | null
+    receivedAmount?: bigint | number | null
+    receivedAt?: Date | string | null
+    bitcoinAddress?: string | null
+  }
+
+  export type ReservationCreateOrConnectWithoutPositionInput = {
+    where: ReservationWhereUniqueInput
+    create: XOR<ReservationCreateWithoutPositionInput, ReservationUncheckedCreateWithoutPositionInput>
+  }
+
+  export type ReservationCreateManyPositionInputEnvelope = {
+    data: ReservationCreateManyPositionInput | ReservationCreateManyPositionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReservationUpsertWithWhereUniqueWithoutPositionInput = {
+    where: ReservationWhereUniqueInput
+    update: XOR<ReservationUpdateWithoutPositionInput, ReservationUncheckedUpdateWithoutPositionInput>
+    create: XOR<ReservationCreateWithoutPositionInput, ReservationUncheckedCreateWithoutPositionInput>
+  }
+
+  export type ReservationUpdateWithWhereUniqueWithoutPositionInput = {
+    where: ReservationWhereUniqueInput
+    data: XOR<ReservationUpdateWithoutPositionInput, ReservationUncheckedUpdateWithoutPositionInput>
+  }
+
+  export type ReservationUpdateManyWithWhereWithoutPositionInput = {
+    where: ReservationScalarWhereInput
+    data: XOR<ReservationUpdateManyMutationInput, ReservationUncheckedUpdateManyWithoutPositionInput>
+  }
+
+  export type ReservationScalarWhereInput = {
+    AND?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+    OR?: ReservationScalarWhereInput[]
+    NOT?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+    id?: StringFilter<"Reservation"> | string
+    reservationId?: StringFilter<"Reservation"> | string
+    ownerAddress?: StringFilter<"Reservation"> | string
+    state?: EnumReservationStatusFilter<"Reservation"> | $Enums.ReservationStatus
+    finality?: EnumPositionFinalityFilter<"Reservation"> | $Enums.PositionFinality
+    amount?: BigIntFilter<"Reservation"> | bigint | number
+    positionId?: StringNullableFilter<"Reservation"> | string | null
+    transactions?: JsonFilter<"Reservation">
+    createdAt?: DateTimeFilter<"Reservation"> | Date | string
+    updatedAt?: DateTimeFilter<"Reservation"> | Date | string
+    contractRegistrationTxHash?: StringNullableFilter<"Reservation"> | string | null
+    contractRegistrationConfirmations?: IntNullableFilter<"Reservation"> | number | null
+    originTxHash?: StringNullableFilter<"Reservation"> | string | null
+    destinationTxHash?: StringNullableFilter<"Reservation"> | string | null
+    receivedAmount?: BigIntNullableFilter<"Reservation"> | bigint | number | null
+    receivedAt?: DateTimeNullableFilter<"Reservation"> | Date | string | null
+    bitcoinAddress?: StringNullableFilter<"Reservation"> | string | null
+  }
+
+  export type PositionCreateWithoutReservationsInput = {
+    id?: string
+    positionId: string
+    ownerAddress: string
+    state?: $Enums.PositionStatus
+    finality?: $Enums.PositionFinality
+    amount: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contractRegistrationTxHash?: string | null
+    contractRegistrationConfirmations?: number | null
+    originTxHash?: string | null
+    destinationTxHash?: string | null
+    receivedAmount?: bigint | number | null
+    receivedAt?: Date | string | null
+    bitcoinAddress?: string | null
+  }
+
+  export type PositionUncheckedCreateWithoutReservationsInput = {
+    id?: string
+    positionId: string
+    ownerAddress: string
+    state?: $Enums.PositionStatus
+    finality?: $Enums.PositionFinality
+    amount: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contractRegistrationTxHash?: string | null
+    contractRegistrationConfirmations?: number | null
+    originTxHash?: string | null
+    destinationTxHash?: string | null
+    receivedAmount?: bigint | number | null
+    receivedAt?: Date | string | null
+    bitcoinAddress?: string | null
+  }
+
+  export type PositionCreateOrConnectWithoutReservationsInput = {
+    where: PositionWhereUniqueInput
+    create: XOR<PositionCreateWithoutReservationsInput, PositionUncheckedCreateWithoutReservationsInput>
+  }
+
+  export type PositionUpsertWithoutReservationsInput = {
+    update: XOR<PositionUpdateWithoutReservationsInput, PositionUncheckedUpdateWithoutReservationsInput>
+    create: XOR<PositionCreateWithoutReservationsInput, PositionUncheckedCreateWithoutReservationsInput>
+    where?: PositionWhereInput
+  }
+
+  export type PositionUpdateToOneWithWhereWithoutReservationsInput = {
+    where?: PositionWhereInput
+    data: XOR<PositionUpdateWithoutReservationsInput, PositionUncheckedUpdateWithoutReservationsInput>
+  }
+
+  export type PositionUpdateWithoutReservationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    positionId?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    state?: EnumPositionStatusFieldUpdateOperationsInput | $Enums.PositionStatus
+    finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PositionUncheckedUpdateWithoutReservationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    positionId?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    state?: EnumPositionStatusFieldUpdateOperationsInput | $Enums.PositionStatus
+    finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ReservationCreateManyPositionInput = {
+    id?: string
+    reservationId: string
+    ownerAddress: string
+    state?: $Enums.ReservationStatus
+    finality?: $Enums.PositionFinality
+    amount: bigint | number
+    transactions?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contractRegistrationTxHash?: string | null
+    contractRegistrationConfirmations?: number | null
+    originTxHash?: string | null
+    destinationTxHash?: string | null
+    receivedAmount?: bigint | number | null
+    receivedAt?: Date | string | null
+    bitcoinAddress?: string | null
+  }
+
+  export type ReservationUpdateWithoutPositionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    state?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    transactions?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ReservationUncheckedUpdateWithoutPositionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    state?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    transactions?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ReservationUncheckedUpdateManyWithoutPositionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    state?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    finality?: EnumPositionFinalityFieldUpdateOperationsInput | $Enums.PositionFinality
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    transactions?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contractRegistrationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    contractRegistrationConfirmations?: NullableIntFieldUpdateOperationsInput | number | null
+    originTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    destinationTxHash?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedAmount?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    bitcoinAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
