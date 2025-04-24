@@ -1,15 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-type RouteParams = {
-  params: {
-    id: string
-  }
-}
-
 export async function GET(
   request: NextRequest,
-  { params }: RouteParams
+  { params }: { params: { id: string } }
 ) {
   const { searchParams } = new URL(request.url)
   const finalityFlag = searchParams.get('finalityFlag')
