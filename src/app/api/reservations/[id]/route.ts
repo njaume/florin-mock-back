@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   const { searchParams } = new URL(request.url)
   const finalityFlag = searchParams.get('finalityFlag')
@@ -11,7 +11,7 @@ export async function GET(
   try {
     const reservation = await prisma.reservation.findUnique({
       where: {
-        reservationId: params.id,
+        reservationId: context.params.id,
         ...(finalityFlag ? { finality: finalityFlag as 'FINAL' | 'PENDING' } : {}),
       },
     })
