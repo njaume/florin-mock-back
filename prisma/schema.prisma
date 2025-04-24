@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -14,11 +14,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum PositionStatus {
+enum PositionState {
   ACTIVE
   INACTIVE
-  EXPIRED
-  COMPLETED
 }
 
 enum PositionFinality {
@@ -32,19 +30,17 @@ enum TransactionType {
   TRANSFER
 }
 
-
 enum ReservationStatus {
   ACTIVE
-  INACTIVE
   COMPLETED
-  EXPIRED
+  CANCELLED
 }
 
 model Position {
   id            String           @id @default(uuid())
   positionId    String           @unique
   ownerAddress  String
-  state         PositionStatus    @default(ACTIVE)
+  state         PositionState    @default(ACTIVE)
   finality      PositionFinality @default(FINAL)
   amount        BigInt
   createdAt     DateTime         @default(now())
