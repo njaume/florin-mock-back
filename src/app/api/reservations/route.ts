@@ -1,5 +1,15 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { Reservation } from '@prisma/client'
+
+// Helper function to serialize BigInt
+const serializeReservation = (reservation: Reservation) => {
+  return {
+    ...reservation,
+    amount: reservation.amount.toString(),
+    receivedAmount: reservation.receivedAmount?.toString() || null,
+  }
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -14,7 +24,7 @@ export async function GET(request: Request) {
       },
     })
 
-    return NextResponse.json(reservations)
+    return NextResponse.json(reservations.map(serializeReservation))
   } catch (error) {
     console.error('Error fetching reservations:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
@@ -42,7 +52,7 @@ export async function POST(request: Request) {
       },
     })
 
-    return NextResponse.json(reservation)
+    return NextResponse.json(serializeReservation(reservation))
   } catch (error) {
     console.error('Error creating reservation:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })

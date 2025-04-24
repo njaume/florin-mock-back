@@ -1,5 +1,15 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { Position } from '@prisma/client'
+
+// Helper function to serialize BigInt
+const serializePosition = (position: Position) => {
+  return {
+    ...position,
+    amount: position.amount.toString(),
+    receivedAmount: position.receivedAmount?.toString() || null,
+  }
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -13,8 +23,7 @@ export async function GET(request: Request) {
         ...(finalityFlag ? { finality: finalityFlag as 'FINAL' | 'PENDING' } : {}),
       },
     })
-
-    return NextResponse.json(positions)
+    return NextResponse.json(positions.map(serializePosition))
   } catch (error) {
     console.error('Error fetching positions:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
@@ -41,7 +50,7 @@ export async function POST(request: Request) {
       },
     })
 
-    return NextResponse.json(position)
+    return NextResponse.json(serializePosition(position))
   } catch (error) {
     console.error('Error creating position:', error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })

@@ -17,6 +17,8 @@ datasource db {
 enum PositionState {
   ACTIVE
   INACTIVE
+  EXPIRED
+  COMPLETED
 }
 
 enum PositionFinality {
@@ -32,8 +34,9 @@ enum TransactionType {
 
 enum ReservationStatus {
   ACTIVE
+  INACTIVE
+  EXPIRED
   COMPLETED
-  CANCELLED
 }
 
 model Position {
@@ -45,7 +48,6 @@ model Position {
   amount        BigInt
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
-  reservations  Reservation[]
   contractRegistrationTxHash  String?
   contractRegistrationConfirmations Int?
   originTxHash  String?
@@ -63,7 +65,6 @@ model Reservation {
   finality       PositionFinality  @default(FINAL)
   amount         BigInt
   positionId     String?
-  position       Position?         @relation(fields: [positionId], references: [positionId])
   transactions   Json              @default("[]")
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
