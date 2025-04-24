@@ -1,9 +1,15 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+type RouteParams = {
+  params: {
+    id: string
+  }
+}
+
 export async function GET(
-  request: Request,
-  context: { params: { id: string } }
+  request: NextRequest,
+  { params }: RouteParams
 ) {
   const { searchParams } = new URL(request.url)
   const finalityFlag = searchParams.get('finalityFlag')
@@ -11,7 +17,7 @@ export async function GET(
   try {
     const reservation = await prisma.reservation.findUnique({
       where: {
-        reservationId: context.params.id,
+        reservationId: params.id,
         ...(finalityFlag ? { finality: finalityFlag as 'FINAL' | 'PENDING' } : {}),
       },
     })
