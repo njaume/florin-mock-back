@@ -48,11 +48,10 @@ export async function GET(
   }
 }
 
-export async function PUT(req: Request) {
-  const { searchParams } = new URL(req.url)
+export async function PUT(req: Request, { params }: { params: Params }) {
+  const { id } = await params
   const body = await req.json()
 
-  const id = searchParams.get("id")
   if (!id) return new Response("No id", { status: 400 })
 
   //validate body
